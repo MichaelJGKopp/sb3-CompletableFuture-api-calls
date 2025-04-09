@@ -4,9 +4,11 @@ import com.javatechie.entity.Inventory;
 import com.javatechie.repository.InventoryRepository;
 import com.javatechie.service.InventoryService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
@@ -23,6 +25,14 @@ public class InventoryServiceImpl implements InventoryService {
         log.info("Getting inventory for the productId {}", productId);
         addDelay();
         return inventoryRepository.findByProductId(productId);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Inventory> getInventoryByProductIdAsync(long productId) {
+        // Fetch inventory data and wrap it in a completed future
+        Inventory inventory = getInventoryByProductId(productId);
+        return CompletableFuture.completedFuture(inventory);
     }
 
     private void addDelay() {
