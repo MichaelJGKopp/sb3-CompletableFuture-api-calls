@@ -31,8 +31,8 @@ public class ProductASyncFacade {
         CompletableFuture<Price> priceFuture = priceService.getPriceByProductIdAsync(productId);
         CompletableFuture<Inventory> inventoryFuture = inventoryService.getInventoryByProductIdAsync(productId);
 
-        // Wait for all futures to complete
-        CompletableFuture.allOf(productFuture, priceFuture, inventoryFuture).join();
+        // Wait for all futures to complete, already completed, not necessary
+//        CompletableFuture.allOf(productFuture, priceFuture, inventoryFuture);
 
         // Combine results
         Product product = productFuture.join();
